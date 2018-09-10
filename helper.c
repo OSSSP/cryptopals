@@ -1,6 +1,6 @@
 #include "helper.h"
 
-unsigned char* hexToBytes(char *hex)
+unsigned char* hexToBytes(char *hex, int *bytesLength)
 {
   size_t length = strlen(hex); //length of hex string
   int numBytes = 0; //number of bytes in byte array
@@ -24,8 +24,9 @@ unsigned char* hexToBytes(char *hex)
     hex = padHex;
   }
 
-  //byte array that will be returned. + 1 for indicating end of byte array
-  unsigned char* byteArray = malloc(sizeof(unsigned char) * (numBytes + 1));
+  //byte array that will be returned
+  unsigned char* byteArray = malloc(sizeof(unsigned char) * numBytes);
+  *bytesLength = numBytes;
   int j = 0; //for accessing byteArray
   unsigned char firstHalf; //first 4 bits of a byte
   unsigned char secondHalf; //last 4 bits of a byte
@@ -50,7 +51,6 @@ unsigned char* hexToBytes(char *hex)
     byteArray[j] = (firstHalf << 4) + secondHalf;
     j++;
   }
-  byteArray[j] = 0; //To indicate end of byte array;
   return byteArray;
 }
 
@@ -63,9 +63,43 @@ int lengthBytes(unsigned char* bytes)
   return length;
 }
 
-char* bytesToB64(unsigned char* bytes)
+char* bytesToHex(unsigned char* bytes, int numBytes)
 {
-  int numBytes = lengthBytes(bytes);
+  int numHex = 2 * numBytes;
+
+  char *hex = malloc(sizeof(char) * (numHex + 1));
+  hex[numHex] = '\0';
+
+  int j = 0;
+  for(int i = 0; i < numHex; i++)
+  {
+    if(i % 2 == 0)
+      hex[i] = (bytes[j] & 240) >> 4;
+    else
+    {
+      hex[i] = (bytes[j] & 15);
+      j++;
+    }
+  }
+
+  for(int i = 0; i < numHex; i++)
+  {
+    switch(hex[i])
+    {
+      case 0 ... 9:
+        hex[i] += '0';
+        break;
+
+      case 10 ... 15:
+        hex[i] += 'a' - 10;
+        break;
+    }
+  }
+  return hex;
+}
+
+char* bytesToB64(unsigned char* bytes, int numBytes)
+{
   int numB64 = ((numBytes * 8) + 5) / 6; //number of Base64 characters
 
   //Base64 string that will be returned. +1 for '\0'
