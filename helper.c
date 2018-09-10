@@ -54,15 +54,6 @@ unsigned char* hexToBytes(char *hex, int *bytesLength)
   return byteArray;
 }
 
-int lengthBytes(unsigned char* bytes)
-{
-  int length = 0;
-  while(bytes[length] != 0) //0 indicates end of byte array
-    length++;
-
-  return length;
-}
-
 char* bytesToHex(unsigned char* bytes, int numBytes)
 {
   int numHex = 2 * numBytes;
