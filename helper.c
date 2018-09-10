@@ -147,6 +147,125 @@ char* bytesToB64(unsigned char* bytes, int numBytes)
         break;
     }
   }
-
   return b64;
+}
+
+float scoreCharFreq(unsigned char *bytes, int length)
+{
+  float score = 0;
+
+  for(int i = 0; i < length; i++)
+  {
+    switch(bytes[i])
+    {
+      case 'A':
+      case 'a':
+        score += 8.12;
+        break;
+      case 'B':
+      case 'b':
+        score += 1.49;
+        break;
+      case 'C':
+      case 'c':
+        score += 2.71;
+        break;
+      case 'D':
+      case 'd':
+        score += 4.32;
+        break;
+      case 'E':
+      case 'e':
+        score += 12.02;
+        break;
+      case 'F':
+      case 'f':
+        score += 2.30;
+        break;
+      case 'G':
+      case 'g':
+        score +=  2.03;
+        break;
+      case 'H':
+      case 'h':
+        score += 5.92;
+        break;
+      case 'I':
+      case 'i':
+        score += 7.31;
+        break;
+      case 'J':
+      case 'j':
+        score += 0.10;
+        break;
+      case 'K':
+      case 'k':
+        score += 0.69;
+        break;
+      case 'L':
+      case 'l':
+        score += 3.98;
+        break;
+      case 'M':
+      case 'm':
+        score += 2.61;
+        break;
+      case 'N':
+      case 'n':
+        score += 6.95;
+        break;
+      case 'O':
+      case 'o':
+        score += 7.68;
+        break;
+      case 'P':
+      case 'p':
+        score += 1.82;
+        break;
+      case 'Q':
+      case 'q':
+        score += 0.11;
+        break;
+      case 'R':
+      case 'r':
+        score += 6.02;
+        break;
+      case 'S':
+      case 's':
+        score += 6.28;
+        break;
+      case 'T':
+      case 't':
+        score += 9.10;
+        break;
+      case 'U':
+      case 'u':
+        score += 2.88;
+        break;
+      case 'V':
+      case 'v':
+        score += 1.11;
+        break;
+      case 'W':
+      case 'w':
+        score += 2.09;
+        break;
+      case 'X':
+      case 'x':
+        score += 0.17;
+        break;
+      case 'Y':
+      case 'y':
+        score += 2.11;
+        break;
+      case 'Z':
+      case 'z':
+        score += 0.07;
+        break;
+      case ' ':
+        score += 10;
+        break;
+    }
+  }
+  return score;
 }
