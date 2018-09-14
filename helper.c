@@ -150,6 +150,27 @@ char* bytesToB64(unsigned char* bytes, int numBytes)
   return b64;
 }
 
+int hammingDistance(char *string1, char *string2)
+{
+  int count = 0;
+  int maxLength;
+
+  if(strlen(string1) >= strlen(string2))
+    maxLength = strlen(string1);
+  else
+    maxLength = strlen(string2);
+
+  for(int i = 0; i < maxLength; i++)
+  {
+    for(int j = 0; j < 8; j++)
+    {
+      if(((string1[i] >> j) & 1) ^ ((string2[i] >> j) & 1))
+        count++;
+    }
+  }
+  return count;
+}
+
 float scoreCharFreq(unsigned char *bytes, int length)
 {
   float score = 0;
