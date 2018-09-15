@@ -17,7 +17,7 @@ char* bytesToHex(unsigned char* bytes, int numBytes);
 char* bytesToB64(unsigned char* bytes, int numBytes);
 
 //Computes the Hamming Distance between two strings (number of differing bits)
-int hammingDistance(char *string1, char *string2);
+int hammingDistance(char *string1, char *string2, int length1, int length2);
 
 //scores using English letter frequency
 //http://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html

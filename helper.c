@@ -212,15 +212,15 @@ char* bytesToB64(unsigned char* bytes, int numBytes)
   return b64;
 }
 
-int hammingDistance(char *string1, char *string2)
+int hammingDistance(char *string1, char *string2, int length1, int length2)
 {
   int count = 0; //number of differing bits
   int maxLength;
 
-  if(strlen(string1) >= strlen(string2))
-    maxLength = strlen(string1);
+  if(length1 >= length2)
+    maxLength = length1;
   else
-    maxLength = strlen(string2);
+    maxLength = length2;
 
   //Outer for loop goes thru each character, inner thru each bit of 8-bit characters
   for(int i = 0; i < maxLength; i++)
