@@ -6,6 +6,9 @@
 //converts hex string to byte array
 unsigned char* hexToBytes(char *hex, int *bytesLength);
 
+//converts base64 string to byte array
+unsigned char* b64ToBytes(char *b64, int *bytesLength);
+
 //converts byte array to Hex string
 char* bytesToHex(unsigned char* bytes, int numBytes);
 

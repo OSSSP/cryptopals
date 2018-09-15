@@ -54,14 +54,75 @@ unsigned char* hexToBytes(char *hex, int *bytesLength)
   return byteArray;
 }
 
-char* bytesToHex(unsigned char* bytes, int numBytes)
+unsigned char* b64ToBytes(char *b64, int *bytesLength)
 {
-  int numHex = 2 * numBytes;
+  size_t length = strlen(b64); //length of base64 string
+  int numBytes = ((length * 6) + 7) / 8; //number of bytes in byte array
 
-  char *hex = malloc(sizeof(char) * (numHex + 1));
-  hex[numHex] = '\0';
+  //byte array that will be returned
+  unsigned char* byteArray = malloc(sizeof(unsigned char) * numBytes);
+  *bytesLength = numBytes;
+
+  char index[length]; //stores index of each base64 character
+  //for loop goes thru and maps each character to their index value
+  for(int i = 0; i < length; i++)
+  {
+    switch(b64[i])
+    {
+      case 'A' ... 'Z':
+        index[i] = b64[i] - 'A';
+        break;
+      case 'a' ... 'z':
+        index[i] = b64[i] - 'a' + 26;
+        break;
+      case '0' ... '9':
+        index[i] = b64[i] - '0' + 52;
+        break;
+      case '+':
+        index[i] = 62;
+        break;
+      case '/':
+        index[i] = 63;
+        break;
+    }
+  }
 
   int j = 0;
+  int k = 0;
+
+  //Goes thru index values of b64 string and stores 8-bits into each byte array index
+  for(int i = numBytes - 1; i > -1; i--)
+  {
+    switch(j % 3)
+    {
+      case 0:
+        byteArray[i] = ((index[length - 2 - k] & 3) << 6) + index[length - 1 - k];
+        break;
+
+      case 1:
+        byteArray[i] = ((index[length - 3 - k] & 15) << 4) + ((index[length - 2 - k] & 60) >> 2);
+        break;
+
+      case 2:
+        byteArray[i] = (index[length - 4 - k] << 2) + ((index[length - 3 - k] & 48) >> 4);
+        k += 4;
+        break;
+    }
+    j++;
+  }
+  return byteArray;
+}
+
+char* bytesToHex(unsigned char* bytes, int numBytes)
+{
+  int numHex = 2 * numBytes; //number of hex characters
+
+  //hex string that will be returned
+  char *hex = malloc(sizeof(char) * (numHex + 1));
+  hex[numHex] = '\0'; //make sure string is null-terminated
+
+  int j = 0;
+  //Go thru byte array 4 bits at a time
   for(int i = 0; i < numHex; i++)
   {
     if(i % 2 == 0)
@@ -73,6 +134,7 @@ char* bytesToHex(unsigned char* bytes, int numBytes)
     }
   }
 
+  //map int values to hex characters
   for(int i = 0; i < numHex; i++)
   {
     switch(hex[i])
@@ -152,7 +214,7 @@ char* bytesToB64(unsigned char* bytes, int numBytes)
 
 int hammingDistance(char *string1, char *string2)
 {
-  int count = 0;
+  int count = 0; //number of differing bits
   int maxLength;
 
   if(strlen(string1) >= strlen(string2))
@@ -160,6 +222,7 @@ int hammingDistance(char *string1, char *string2)
   else
     maxLength = strlen(string2);
 
+  //Outer for loop goes thru each character, inner thru each bit of 8-bit characters
   for(int i = 0; i < maxLength; i++)
   {
     for(int j = 0; j < 8; j++)
