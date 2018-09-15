@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <limits.h>
 
 //converts hex string to byte array
 unsigned char* hexToBytes(char *hex, int *bytesLength);
