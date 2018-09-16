@@ -14,7 +14,7 @@ int main()
   }
 
   float highScore = 0;
-  unsigned char *bytesXOR;
+  unsigned char *bytesXOR = malloc(sizeof(unsigned char) * 1);
   char line[62]; //60 for actual hex chars, +2 for \n and \0
 
   //Go thru text file line by line till EOF
@@ -41,7 +41,8 @@ int main()
       if(score > highScore)
       {
         highScore = score;
-        memcpy(bytesXOR, temp, length);
+        bytesXOR = realloc(bytesXOR, sizeof(unsigned char) * (length + 1));
+        memcpy(bytesXOR, temp, length+1);
       }
     }
     free(bytes);
