@@ -57,11 +57,10 @@ unsigned char* hexToBytes(char *hex, int *bytesLength)
 unsigned char* b64ToBytes(char *b64, int *bytesLength)
 {
   size_t length = strlen(b64); //length of base64 string
-  int numBytes = ((length * 6) + 7) / 8; //number of bytes in byte array
-
+  int numBytes = (length * 6) / 8;
+  
   //byte array that will be returned
   unsigned char* byteArray = malloc(sizeof(unsigned char) * numBytes);
-  *bytesLength = numBytes;
 
   char index[length]; //stores index of each base64 character
   //for loop goes thru and maps each character to their index value
@@ -89,7 +88,6 @@ unsigned char* b64ToBytes(char *b64, int *bytesLength)
 
   int j = 0;
   int k = 0;
-
   //Goes thru index values of b64 string and stores 8-bits into each byte array index
   for(int i = numBytes - 1; i > -1; i--)
   {
@@ -110,6 +108,16 @@ unsigned char* b64ToBytes(char *b64, int *bytesLength)
     }
     j++;
   }
+
+  //handles padding
+  if(b64[length-1] == '=')
+  {
+    numBytes--;
+    if(b64[length - 2] == '=')
+      numBytes--;
+    byteArray = realloc(byteArray, sizeof(unsigned char) * numBytes);
+  }
+  *bytesLength = numBytes;
   return byteArray;
 }
 
