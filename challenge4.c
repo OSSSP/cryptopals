@@ -49,4 +49,5 @@ int main()
   }
   fclose(fp);
   printf("%s", bytesXOR);
+  free(bytesXOR);
 }
