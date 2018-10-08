@@ -100,27 +100,9 @@ int main()
 
     //xor of block with single character
     unsigned char bytesXOR[(numBytes / correctKeySize)];
-    unsigned char temp[(numBytes / correctKeySize)];
     float highScore = 0;
     char keyChar; //character that was used to xor block
-
-    //xor block with different characters
-    //character with best score gets added to key
-    for(int i = 0; i < 256; i++)
-    {
-      for(int j = 0; j < (numBytes / correctKeySize); j++)
-      {
-        temp[j] = block[j] ^ i;
-      }
-      float score = scoreCharFreq(temp, (numBytes / correctKeySize));
-      if(score > highScore)
-      {
-        highScore = score;
-        memcpy(bytesXOR, temp, (numBytes / correctKeySize));
-        keyChar = i;
-      }
-    }
-    key[i] = keyChar;
+    key[i] = singleByteXOR(block, bytesXOR, (numBytes / correctKeySize), &highScore);
   }
 
   char plaintext[numBytes];

@@ -9,26 +9,11 @@ int main()
   int length; //number of bytes in byte array
   unsigned char *bytes = hexToBytes(hex, &length);
   unsigned char bytesXOR[length+1]; //+1 for '\0'
-  unsigned char temp[length+1]; //+1 for '\0'
   bytesXOR[length] = '\0';
-  temp[length] = '\0';
   float highScore = 0;
 
-  //Loops through 256 characters
-  for(int i = 0; i < 256; i++)
-  {
-    //xor's byte array with single character
-    for(int j = 0; j < length; j++)
-    {
-      temp[j] = bytes[j] ^ i;
-    }
-    float score = scoreCharFreq(temp, length);
-    if(score > highScore)
-    {
-      highScore = score;
-      memcpy(bytesXOR, temp, length);
-    }
-  }
+  singleByteXOR(bytes, bytesXOR, length, &highScore);
+
   printf("%s\n", bytesXOR);
   free(bytes);
 }
