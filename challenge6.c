@@ -105,17 +105,13 @@ int main()
     key[i] = singleByteXOR(block, bytesXOR, (numBytes / correctKeySize), &highScore);
   }
 
-  char plaintext[numBytes];
+  char plaintext[numBytes + 1];
+  plaintext[numBytes] = '\0';
   //apply repeating-key XOR to ciphertext to get plaintext
   for(int i = 0; i < numBytes; i++)
   {
     plaintext[i] = bytes[i] ^ key[i % correctKeySize];
   }
   free(bytes);
-
-  //print out the plaintext
-  for(int i = 0; i < numBytes; i++)
-  {
-    printf("%c", plaintext[i]);
-  }
+  printf("%s", plaintext);
 }
