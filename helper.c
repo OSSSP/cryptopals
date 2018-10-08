@@ -242,6 +242,29 @@ int hammingDistance(char *string1, char *string2, int length1, int length2)
   return count;
 }
 
+char singleByteXOR(unsigned char *bytes, unsigned char *bytesXOR, int length, float *highScore)
+{
+  unsigned char temp[length];
+  char keyChar = '\0'; //character that will be returned
+
+  //Go thru each character and XOR byte array with that character
+  for(int i = 0; i < 256; i++)
+  {
+    for(int j = 0; j < length; j++)
+    {
+      temp[j] = bytes[j] ^ i;
+    }
+    float score = scoreCharFreq(temp, length);
+    if(score > *highScore)
+    {
+      *highScore = score;
+      memcpy(bytesXOR, temp, length);
+      keyChar = i;
+    }
+  }
+  return keyChar;
+}
+
 float scoreCharFreq(unsigned char *bytes, int length)
 {
   float score = 0;
