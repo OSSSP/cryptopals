@@ -1,4 +1,4 @@
-//http://cryptopals.com/sets/1/challenges/7
+// https://cryptopals.com/sets/1/challenges/7
 
 #include "helper.h"
 #include <openssl/evp.h>

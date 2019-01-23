@@ -1,4 +1,4 @@
-//http://cryptopals.com/sets/1/challenges/4
+// https://cryptopals.com/sets/1/challenges/4
 
 #include "helper.h"
 

@@ -1,2 +1,2 @@
 # Cryptopals
-http://cryptopals.com/
+https://cryptopals.com/
